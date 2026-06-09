@@ -1,0 +1,10 @@
+[package]
+name = "contixo-sample-rust"
+version = "1.0.0"
+edition = "2021"
+
+[dependencies]
+# Minimal HTTP framework — actix-web pulls in a chunk of crates but
+# the binary stays small. tokio is bundled in via actix-web's
+# rt feature.
+actix-web = "4"
