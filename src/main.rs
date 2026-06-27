@@ -11,7 +11,6 @@
 // uses; the customer can override at deploy time but defaults to
 // 8000).
 
-use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
 use std::env;
 
 #[get("/")]
