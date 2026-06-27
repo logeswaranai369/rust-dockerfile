@@ -8,3 +8,5 @@ edition = "2021"
 # the binary stays small. tokio is bundled in via actix-web's
 # rt feature.
 actix-web = "4"
+serde_json = "1"
+
