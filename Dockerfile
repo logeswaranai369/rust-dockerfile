@@ -7,7 +7,10 @@
 # hits Continue without typing.
 
 # ----- Build stage ----------------------------------------------------
-FROM rust:1.74-alpine AS build
+# Rust 1.85+ is required: a transitive dependency (sha1 v0.11) now uses
+# Cargo's 2024 edition, which 1.74 can't parse. `rust:1-alpine` tracks
+# the latest stable 1.x so this won't go stale as deps move forward.
+FROM rust:1-alpine AS build
 RUN apk add --no-cache musl-dev
 WORKDIR /src
 COPY Cargo.toml .
@@ -15,7 +18,9 @@ COPY src ./src
 RUN cargo build --release
 
 # ----- Runtime stage --------------------------------------------------
-FROM alpine:3.18
+# Use a current Alpine so the runtime musl is >= the one the binary was
+# built against (an older runtime musl can fail with missing symbols).
+FROM alpine:3.20
 RUN addgroup -S app && adduser -S app -G app
 COPY --from=build /src/target/release/contixo-sample-rust /usr/local/bin/app
 USER app
